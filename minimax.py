@@ -1,14 +1,13 @@
+#!/usr/bin/env python3
 from math import inf as infinity
-
 board = [
-		[ 0, 0, 0 ],
-		[ 0, 0, 0 ],
-		[ 0, 0, 0 ],
+		[  0,  0,  0 ],
+		[  0,  0,  0 ],
+		[  0,  0,  0 ],
 ]
 HUMAN = -1
 COMP  = +1
 
-# Heuristic evaluation function
 def evaluate(state):
 	"""
 	Function to heuristic evaluation of state.
@@ -70,7 +69,7 @@ def eval_line(r1, c1, r2, c2, r3, c3, state):
 		if score > 0:
 			# X X X; new score = +100
 			# ? X X; new score = +10
-			score *= 10
+			score *= 100
 		elif score < 0:
 			# O O X
 			# O ? X
@@ -130,13 +129,33 @@ def empty_cells(state):
 				cells.append([x, y])
 	return cells
 
+# some bugs here
 def minimax(state, depth, player):
+
 	if depth == 0 or gameover(state, player):
 		score = evaluate(state)
 		return [-1, -1, score]
 
+	if player == COMP:
+		best = [-1, -1, -infinity]
+	else:
+		best = [-1, -1, +infinity]
+
 	for cell in empty_cells(state):
-	# ** --- *** In progress *** --- ** #
+		x, y = cell[0], cell[1]
+		state[x][y] = player
+		score = minimax(state, depth - 1, -player)
+		state[x][y] = 0
+		score[0], score[1] = x, y
+
+		if player == COMP:
+			if score[2] > best[2]:
+				best = score # max value
+		else:
+			if score[2] < best[2]:
+				best = score # min value
+
+	return best
 
 # DEBUG
 def render(state):
@@ -144,7 +163,24 @@ def render(state):
 	print('{:2} | {:2} | {:2}'.format(state[1][0], state[1][1], state[1][2]))
 	print('{:2} | {:2} | {:2}'.format(state[2][0], state[2][1], state[2][2]))
 
-# DEBUG
-# print('Minimax: ', minimax(board, 9, 1))
-# print('Score: ', evaluate(board))
-# print(empty_cells(board))
+while not gameover(board, COMP) and not gameover(board, HUMAN) and len(empty_cells(board)) > 0:
+	render(board)
+
+	print('Human')
+	x = int(input('x: ' ))
+	y = int(input('y: ' ))
+	board[x][y] = HUMAN
+
+	print('Computer')
+	ai = minimax(board, len(empty_cells(board)), COMP)
+	x = ai[0]
+	y = ai[1]
+	board[x][y] = COMP
+
+if gameover(board, COMP):
+	render(board)
+	print('Computer wins!')
+elif gameover(board, HUMAN):
+	print('Human wins!')
+else:
+	print('Draw')
