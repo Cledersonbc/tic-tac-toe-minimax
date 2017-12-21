@@ -1,14 +1,24 @@
 #!/usr/bin/env python3
 from math import inf as infinity
 from random import choice
-from sys import platform
+import platform
+import time
 from os import system
+
+"""
+An implementation of Minimax AI Algorithm in Tic Tac Toe,
+using Python.
+This software is available under GPL license.
+Author: Clederson Cruz
+Year: 2017
+"""
 
 board = [
     [0, 0, 0],
     [0, 0, 0],
     [0, 0, 0],
 ]
+
 h_choice = ''  # X or O
 c_choice = ''  # X or O
 HUMAN = -1
@@ -147,7 +157,8 @@ def clean():
     """
     Clears the console
     """
-    if 'windows' in platform.lower():
+    osname = platform.system().lower()
+    if 'windows' in osname:
         system('cls')
     else:
         system('clear')
@@ -189,6 +200,7 @@ def iaturn():
         x, y = move[0], move[1]
 
     set_move(x, y, COMP)
+    time.sleep(1)
 
 
 def main():
@@ -198,6 +210,7 @@ def main():
     clean()
     global h_choice, c_choice
     first = ''  # if human is the first
+
     # Dictionary of valid moves
     moves = {
         7: [0, 0], 8: [0, 1], 9: [0, 2],
@@ -210,6 +223,9 @@ def main():
         try:
             print('')
             h_choice = input('Choose X or O\nChosen: ').upper()
+        except KeyboardInterrupt:
+            print('Bye')
+            exit()
         except:
             print('Bad choice')
 
@@ -224,6 +240,9 @@ def main():
     while first != 'Y' and first != 'N':
         try:
             first = input('First to start?[y/n]: ').upper()
+        except KeyboardInterrupt:
+            print('Bye')
+            exit()
         except:
             print('Bad choice')
 
@@ -246,6 +265,9 @@ def main():
                 if try_move == False:
                     print('Bad move')
                     move = 0
+            except KeyboardInterrupt:
+                print('Bye')
+                exit()
             except:
                 print('Bad choice')
 
