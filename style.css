@@ -1,0 +1,114 @@
+/* ****************** Body, head etc ****************** */
+body {
+	margin: 0;
+	padding: 0;
+}
+
+header {
+	background-color: #00AEEA;
+	color: #eee;
+	text-align: center;
+	height: 60px;
+	padding-top: 5px;
+	display: block;
+	margin-top: 0px;
+	margin-bottom: 60px;
+	box-sizing: border-box;
+	position: relative;
+	width: 100%;
+}
+
+p {
+	font-size: 14pt;
+	font-weight: bold;
+	font-family: Sans;
+	text-align: center;
+	position: relative;
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+}
+
+a {
+	color: #00AEEA;
+	text-decoration: none;
+}
+a:hover {
+	color: #00AEEA;
+}
+a:visited {
+	color: #00AEEA;
+}
+
+/* ****************** Table style ****************** */
+#tab-tic-tac-toe {
+	margin-left: auto;
+	margin-right: auto;
+	padding: 5px;
+	font-size: 4em;
+	font-family: Sans;
+	color: #444;
+	background: #F8F8F8;
+	width: 310px;
+	height: 300px;
+	text-align: center;
+	vertical-align: center;
+	border: 1px solid #CECECE;
+	border-radius: 5px;
+	box-shadow: 1px 1px 1px #CCC;
+}
+
+/*Column style*/
+#tab-tic-tac-toe td {
+	border-collapse:collapse;
+	border-left: 5px solid #CCC;
+	border-bottom: 5px solid #CCC;
+}
+
+#tab-tic-tac-toe td:first-child {
+	border-left: none;
+}
+
+#tab-tic-tac-toe tr:last-child td {
+	border-bottom: none;
+}
+
+/*Cells*/
+#tab-tic-tac-toe td {
+	cursor: pointer;
+	height: 95px;
+	width: 95px;
+}
+
+#tab-tic-tac-toe td:hover {
+	background: #ECECEC;
+}
+
+/* ****************** Restart Button ****************** */
+#bnt-restart {
+	display: block;
+	padding: 10px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 200px;
+	background: #00AEEA;
+	font-size: 1.5em;
+	color: #FFF;
+	border: none;
+	border-radius: 6px;
+	cursor: pointer;
+}
+
+#bnt-restart:hover {
+	background: #1DC5FF;
+}
+
+#bnt-restart:active {
+	background: #0787B3;
+}
+
+#bnt-restart:disabled {
+	color: #444;
+	background: #CECECE;
+}

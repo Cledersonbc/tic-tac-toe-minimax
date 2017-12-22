@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!--
+		Tic Tac Toe with Minimax AI Algorithm
+		Author: Clederson Cruz
+		Year: 2017
+		-->
+
+		<meta charset="UTF-8" />
+		<meta content="Clederson Cruz" name="author" />
+		<link type="text/css" rel="stylesheet" href="style.css" />
+		<script type="text/javascript" src="script.js"></script>
+		<title>Jogo da Velha - Minimax</title>
+	</head>
+	<body>
+		<header>
+			<p>Minimax Algorithm</p>
+		</header>
+			<br />
+			<p id="message"></p>
+			<br />
+		<table id="tab-tic-tac-toe" cellspacing="0">
+			<tr><td id="00" onclick="clickedCell(this)"></td><td id="01" onclick="clickedCell(this)"></td><td id="02" onclick="clickedCell(this)"></td></tr>
+			<tr><td id="10" onclick="clickedCell(this)"></td><td id="11" onclick="clickedCell(this)"></td><td id="12" onclick="clickedCell(this)"></td></tr>
+			<tr><td id="20" onclick="clickedCell(this)"></td><td id="21" onclick="clickedCell(this)"></td><td id="22" onclick="clickedCell(this)"></td></tr>
+		</table>
+		<br><br>
+		<input type="button" value="Start AI" id="bnt-restart" onclick="restartBnt(this)"/>
+		<br />
+		<footer>
+			<p>Read more on: <a href="https://github.com/Cledersonbc/tic-tac-toe-minimax/blob/master/README.md" target="_blank">Github</a></p>
+		</footer>
+	</body>
+</html>
