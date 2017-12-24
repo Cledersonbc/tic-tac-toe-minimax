@@ -61,10 +61,10 @@ def minimax(state, depth, player):
 * **player**: may be a *MAX* player or *MIN* player
 
 ```python
-	if player == MAX:
-		return [-1, -1, -infinity]
-	else:
-		return [-1, -1, +infinity]
+if player == MAX:
+	return [-1, -1, -infinity]
+else:
+	return [-1, -1, +infinity]
 ```
 
 Both players start with your worst score. If player is MAX, its score is -infinity. Else if player is MIN, its score is +infinity. **Note:** *infinity* is an alias for inf (from math module, in Python).
@@ -72,9 +72,9 @@ Both players start with your worst score. If player is MAX, its score is -infini
 The best move on the board is [-1, -1] (row and column) for all.
 
 ```python
-	if depth == 0 or game_over_all(state):
-		score = evaluate(state)
-		return score
+if depth == 0 or game_over_all(state):
+	score = evaluate(state)
+	return score
 ```
 
 If the depth is equal zero, then the board hasn't new empty cells to play. Or, if a player wins, then the game ended for MAX or MIN. So the score for that state will be returned.
@@ -86,19 +86,18 @@ If the depth is equal zero, then the board hasn't new empty cells to play. Or, i
 Now we'll see the main part of this code that contains recursion.
 
 ```python
-	for cell in empty_cells(state):
-		x, y = cell[0], cell[1]
-		state[x][y] = player
-		score = minimax(state, depth - 1, -player)
-		state[x][y] = 0
-		score[0], score[1] = x, y
-
+for cell in empty_cells(state):
+	x, y = cell[0], cell[1]
+	state[x][y] = player
+	score = minimax(state, depth - 1, -player)
+	state[x][y] = 0
+	score[0], score[1] = x, y
 ```
 
 For each valid moves (empty cells):
 * **x**: receives cell row index
 * **y**: receives cell column index
-* **state[x][y]**: it's like board[available_row][available_col] receives MAX or MIN score
+* **state[x][y]**: it's like board[available_row][available_col] receives MAX or MIN player
 * **score = minimax(state, depth - 1, -player)**:
  * state: is the current board in recursion;
  * depth -1: index of the next state;
@@ -109,33 +108,33 @@ The move (+1 or -1) on the board is undo and the row, column are collected.
 The next step is compare the score with best.
 
 ```python
-	if player == MAX:
-		if score[2] > best[2]:
-			best = score
-	else:
-		if score[2] < best[2]:
-			best = score
+if player == MAX:
+	if score[2] > best[2]:
+		best = score
+else:
+	if score[2] < best[2]:
+		best = score
 ```
 
 For MAX player, a bigger score will be received. For a MIN player, a lower score will be received. And in the end, the best move is returned. Final algorithm:
 
 ```python
-	def minimax(state, depth, player):
-		if player == MAX:
-			best = [-1, -1, -infinity]
-		else:
-			best = [-1, -1, +infinity]
+def minimax(state, depth, player):
+	if player == MAX:
+		best = [-1, -1, -infinity]
+	else:
+		best = [-1, -1, +infinity]
 
-		if depth == 0 or game_over_all(state):
-			score = evaluate(state)
-			return [-1, -1, score]
+	if depth == 0 or game_over_all(state):
+		score = evaluate(state)
+		return [-1, -1, score]
 
-		for cell in empty_cells(state):
-			x, y = cell[0], cell[1]
-			state[x][y] = player
-			score = minimax(state, depth - 1, -player)
-			state[x][y] = 0
-			score[0], score[1] = x, y
+	for cell in empty_cells(state):
+		x, y = cell[0], cell[1]
+		state[x][y] = player
+		score = minimax(state, depth - 1, -player)
+		state[x][y] = 0
+		score[0], score[1] = x, y
 
 		if player == MAX:
 			if score[2] > best[2]:
