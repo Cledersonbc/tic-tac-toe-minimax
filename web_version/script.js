@@ -201,7 +201,7 @@ function clickedCell(cell) {
 		msg = document.getElementById("message");
 		msg.innerHTML = "You lose!";
 	}
-	if (emptyCells(board).length == 0) {
+	if (emptyCells(board).length == 0 && !gameOverAll(board)) {
 		var msg = document.getElementById("message");
 		msg.innerHTML = "Draw!";
 	}

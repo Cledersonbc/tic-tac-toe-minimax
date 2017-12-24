@@ -6,7 +6,7 @@ An implementation of Minimax AI Algorithm on Tic-Tac-Toe (or Noughts and Crosses
 </p>
 
 ## What is Minimax?
-Minimax is a artificial intelligence applied in two player games, such as tic-tac-toe, checkers, chess and go. This games are known as zero-sum games, because in a mathematical representation: one player wins (+1) and other player loses (-1) or both of anyone not win (0).
+Minimax is a artificial intelligence applied in two player games, such as tic-tac-toe, checkers, chess and go. This games are known as zero-sum games, because in a mathematical representation: one player wins (+1) and other player loses (-1) or both of anyone not to win (0).
 
 ## How does it works?
 The algorithm search, recursively, the best move that leads the *Max* player to win or not lose (draw). It consider the current state of the game and the available moves at that state, then for each valid move it plays (alternating *min* and *max*) until it finds a terminal state (win, draw or lose).
@@ -99,9 +99,9 @@ For each valid moves (empty cells):
 * **y**: receives cell column index
 * **state[x][y]**: it's like board[available_row][available_col] receives MAX or MIN player
 * **score = minimax(state, depth - 1, -player)**:
- * state: is the current board in recursion;
- * depth -1: index of the next state;
- * -player: if a player is MAX (+1) will be MIN (-1) and vice versa.
+  * state: is the current board in recursion;
+  * depth -1: index of the next state;
+  * -player: if a player is MAX (+1) will be MIN (-1) and vice versa.
 
 The move (+1 or -1) on the board is undo and the row, column are collected.
 
@@ -150,7 +150,21 @@ def minimax(state, depth, player):
 Below, the best move is on the middle because the max value is on 2nd node on left.
 
 <p align="center">
-	<img src="preview/tic-tac-toe-minimax-tree-game.png"></img>
+	<img src="preview/tic-tac-toe-minimax-game-tree.png"></img>
 </p>
 
 Take a look that the depth is equal the valid moves on the board. The complete code is available in **py_version/**.
+
+Simplified game tree:
+
+<p align="center">
+	<img src="preview/simplified-g-tree.png"></img>
+</p>
+
+That tree has 11 nodes. The full game tree has 549.946 nodes! You can test it putting a static global variable in your program and incrementing it for each minimax function call per turn.
+
+In a game more complex, such as chess, it's hard to search whole game tree. However, Alpha–beta Pruning is an optimization method to the minimax algorithm that allows us to disregard some branches in the search tree, because he cuts irrelevant nodes (subtrees) in search. For more information, see:
+
+* Book: George T. Heineman; Gary Pollice; Stanley Selkow. Algorithms in a nutshell. O'Reilly, 2009.
+* Wikipédia: <https://en.wikipedia.org/wiki/Minimax>
+* Nanyang Technological University: <https://www.ntu.edu.sg/home/ehchua/programming/java/JavaGame_TicTacToe_AI.html>
