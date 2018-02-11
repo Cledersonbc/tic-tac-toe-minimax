@@ -72,7 +72,7 @@ Both players start with your worst score. If player is MAX, its score is -infini
 The best move on the board is [-1, -1] (row and column) for all.
 
 ```python
-if depth == 0 or game_over_all(state):
+if depth == 0 or game_over(state):
 	score = evaluate(state)
 	return score
 ```
@@ -125,7 +125,7 @@ def minimax(state, depth, player):
 	else:
 		best = [-1, -1, +infinity]
 
-	if depth == 0 or game_over_all(state):
+	if depth == 0 or game_over(state):
 		score = evaluate(state)
 		return [-1, -1, score]
 

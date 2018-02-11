@@ -14,17 +14,13 @@ Year: 2017
 License: GNU GENERAL PUBLIC LICENSE (GPL)
 """
 
+HUMAN = -1
+COMP = +1
 board = [
     [0, 0, 0],
     [0, 0, 0],
     [0, 0, 0],
 ]
-
-h_choice = ''  # X or O
-c_choice = ''  # X or O
-HUMAN = -1
-COMP = +1
-
 
 def evaluate(state):
     """
@@ -32,9 +28,9 @@ def evaluate(state):
     :param state: the state of the current board
     :return: +1 if the computer wins; -1 if the human wins; 0 draw
     """
-    if game_over(state, COMP):
+    if wins(state, COMP):
         score = +1
-    elif game_over(state, HUMAN):
+    elif wins(state, HUMAN):
         score = -1
     else:
         score = 0
@@ -42,7 +38,7 @@ def evaluate(state):
     return score
 
 
-def game_over(state, player):
+def wins(state, player):
     """
     This function tests if a specific player wins. Possibilities:
     * Three rows    [X X X] or [O O O]
@@ -68,13 +64,13 @@ def game_over(state, player):
         return False
 
 
-def game_over_all(state):
+def game_over(state):
     """
     This function test if the human or computer wins
     :param state: the state of the current board
     :return: True if the human or computer wins
     """
-    return game_over(state, HUMAN) or game_over(state, COMP)
+    return wins(state, HUMAN) or wins(state, COMP)
 
 
 def empty_cells(state):
@@ -87,8 +83,7 @@ def empty_cells(state):
 
     for x, row in enumerate(state):
         for y, cell in enumerate(row):
-            if cell == 0:
-                cells.append([x, y])
+            if cell == 0: cells.append([x, y])
     return cells
 
 
@@ -133,7 +128,7 @@ def minimax(state, depth, player):
     else:
         best = [-1, -1, +infinity]
 
-    if depth == 0 or game_over_all(state):
+    if depth == 0 or game_over(state):
         score = evaluate(state)
         return [-1, -1, score]
 
@@ -158,14 +153,14 @@ def clean():
     """
     Clears the console
     """
-    osname = platform.system().lower()
-    if 'windows' in osname:
+    os_name = platform.system().lower()
+    if 'windows' in os_name:
         system('cls')
     else:
         system('clear')
 
 
-def render(state):
+def render(state, c_choice, h_choice):
     """
     Print the board on console
     :param state: current state of the board
@@ -183,25 +178,70 @@ def render(state):
     print('\n----------------')
 
 
-def iaturn():
+def ai_turn(c_choice, h_choice):
     """
     It calls the minimax function if the depth < 9,
     else it choices a random coordinate.
+    :param c_choice: computer's choice X or O
+    :param h_choice: human's choice X or O
     :return:
     """
+    depth = len(empty_cells(board))
+    if depth == 0 or game_over(board):
+        return
+
     clean()
     print('Computer turn [{}]'.format(c_choice))
-    render(board)
+    render(board, c_choice, h_choice)
 
-    if len(empty_cells(board)) == 9:
+    if depth == 9:
         x = choice([0, 1, 2])
         y = choice([0, 1, 2])
     else:
-        move = minimax(board, len(empty_cells(board)), COMP)
+        move = minimax(board, depth, COMP)
         x, y = move[0], move[1]
 
     set_move(x, y, COMP)
     time.sleep(1)
+
+
+def human_turn(c_choice, h_choice):
+    """
+    The Human plays choosing a valid move.
+    :param c_choice: computer's choice X or O
+    :param h_choice: human's choice X or O
+    :return:
+    """
+    depth = len(empty_cells(board))
+    if depth == 0 or game_over(board):
+        return
+
+    # Dictionary of valid moves
+    move = -1
+    moves = {
+        1: [0, 0], 2: [0, 1], 3: [0, 2],
+        4: [1, 0], 5: [1, 1], 6: [1, 2],
+        7: [2, 0], 8: [2, 1], 9: [2, 2],
+    }
+
+    clean()
+    print('Human turn [{}]'.format(h_choice))
+    render(board, c_choice, h_choice)
+
+    while (move < 1 or move > 9):
+        try:
+            move = int(input('Use numpad (1..9): '))
+            coord = moves[move]
+            try_move = set_move(coord[0], coord[1], HUMAN)
+
+            if try_move == False:
+                print('Bad move')
+                move = -1
+        except KeyboardInterrupt:
+            print('Bye')
+            exit()
+        except:
+            print('Bad choice')
 
 
 def main():
@@ -209,15 +249,9 @@ def main():
     Main function that calls all functions
     """
     clean()
-    global h_choice, c_choice
+    h_choice = '' # X or O
+    c_choice = '' # X or O
     first = ''  # if human is the first
-
-    # Dictionary of valid moves
-    moves = {
-        1: [0, 0], 2: [0, 1], 3: [0, 2],
-        4: [1, 0], 5: [1, 1], 6: [1, 2],
-        7: [2, 0], 8: [2, 1], 9: [2, 2],
-    }
 
     # Human chooses X or O to play
     while h_choice != 'O' and h_choice != 'X':
@@ -236,8 +270,8 @@ def main():
     else:
         c_choice = 'X'
 
-    clean()
     # Human may starts first
+    clean()
     while first != 'Y' and first != 'N':
         try:
             first = input('First to start?[y/n]: ').upper()
@@ -247,47 +281,29 @@ def main():
         except:
             print('Bad choice')
 
-    # If not, computer starts first
-    if first == 'N':
-        iaturn()
-
     # Main loop of this game
-    while not game_over_all(board) and len(empty_cells(board)) > 0:
-        clean()
-        print('Human turn [{}]'.format(h_choice))
-        render(board)
-        move = 0
-        while move < 1 or move > 9:
-            try:
-                move = int(input('Use numpad (1..9): '))
-                coord = moves[move]
-                try_move = set_move(coord[0], coord[1], HUMAN)
+    while len(empty_cells(board)) > 0 and not game_over(board):
+        if first == 'N':
+            ai_turn(c_choice, h_choice)
+            first = ''
 
-                if try_move == False:
-                    print('Bad move')
-                    move = 0
-            except KeyboardInterrupt:
-                print('Bye')
-                exit()
-            except:
-                print('Bad choice')
-
-        # AI turn
-        iaturn()
+        human_turn(c_choice, h_choice)
+        ai_turn(c_choice, h_choice)
 
     # Game over message
-    if game_over(board, HUMAN):
+    if wins(board, HUMAN):
         clean()
         print('Human turn [{}]'.format(h_choice))
+        render(board, c_choice, h_choice)
         print('YOU WIN!')
-    elif game_over(board, COMP):
+    elif wins(board, COMP):
         clean()
         print('Computer turn [{}]'.format(c_choice))
-        render(board)
+        render(board, c_choice, h_choice)
         print('YOU LOSE!')
     else:
         clean()
-        render(board)
+        render(board, c_choice, h_choice)
         print('DRAW!')
 
     exit()
