@@ -4,7 +4,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
- * MessageBundle for internacionalization (I18N)
+ * MessageBundle for internationalization (I18N)
  * This class provides a way to get messages accord to locale.
  * @author Cledersonbc
  *
@@ -16,14 +16,14 @@ public class MessagesBundle {
 	private String country;
 	private ResourceBundle messages;
 
-	public MessagesBundle(String language, String country) {
-		this.language = language;
-		this.country = country;
+	public MessagesBundle(Enum<Language> language, Enum<Country> country) {
+		this.language = language.name();
+		this.country = country.name();
 		loadResourceBundle();
 	}
 
 	public MessagesBundle() {
-		this("en", "US");
+		this(Language.EN, Country.US);
 	}
 
 	private void loadResourceBundle() {
@@ -35,8 +35,8 @@ public class MessagesBundle {
 		return language;
 	}
 
-	public void setLanguage(String language) {
-		this.language = language;
+	public void setLanguage(Enum<Language> language) {
+		this.language = language.name();
 		loadResourceBundle();
 	}
 
@@ -44,8 +44,8 @@ public class MessagesBundle {
 		return country;
 	}
 
-	public void setCountry(String country) {
-		this.country = country;
+	public void setCountry(Enum<Country> country) {
+		this.country = country.name();
 		loadResourceBundle();
 	}
 
