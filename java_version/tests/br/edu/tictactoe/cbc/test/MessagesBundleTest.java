@@ -1,8 +1,8 @@
-package br.edu.minimax.tictactoe.cbc.test;
+package br.edu.tictactoe.cbc.test;
 
-import br.edu.minimax.tictactoe.cbc.util.i18n.Country;
-import br.edu.minimax.tictactoe.cbc.util.i18n.Language;
-import br.edu.minimax.tictactoe.cbc.util.i18n.MessagesBundle;
+import br.edu.tictactoe.cbc.util.i18n.Country;
+import br.edu.tictactoe.cbc.util.i18n.Language;
+import br.edu.tictactoe.cbc.util.i18n.MessagesBundle;
 
 public class MessagesBundleTest {
 

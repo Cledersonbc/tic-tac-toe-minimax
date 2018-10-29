@@ -1,4 +1,4 @@
-package br.edu.minimax.tictactoe.cbc.util.i18n;
+package br.edu.tictactoe.cbc.util.i18n;
 
 import java.util.Locale;
 import java.util.ResourceBundle;

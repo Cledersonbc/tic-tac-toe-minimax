@@ -1,4 +1,4 @@
-package br.edu.minimax.tictactoe.cbc.view;
+package br.edu.tictactoe.cbc.view;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -11,9 +11,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import br.edu.minimax.tictactoe.cbc.util.i18n.Country;
-import br.edu.minimax.tictactoe.cbc.util.i18n.Language;
-import br.edu.minimax.tictactoe.cbc.util.i18n.MessagesBundle;
+import br.edu.tictactoe.cbc.util.i18n.Country;
+import br.edu.tictactoe.cbc.util.i18n.Language;
+import br.edu.tictactoe.cbc.util.i18n.MessagesBundle;
 
 public class Window extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
@@ -60,8 +60,10 @@ public class Window extends JFrame implements ActionListener {
 	private JPanel buildBodyPanel() {
 		JPanel bodyPanel = new JPanel(new GridLayout(3, 3, 10, 10));
 		
-		for (int i = 0; i < 9; i++) {
+		for (int i = 0; i < 9; ++i) {
 			JButton button = new JButton();
+			button.addActionListener(this);
+			button.setActionCommand(String.valueOf(i));
 			bodyPanel.add(button);
 		}
 		
@@ -93,7 +95,7 @@ public class Window extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		System.out.println(e.getActionCommand().toString());
 		
 	}
 
