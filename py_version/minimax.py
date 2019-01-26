@@ -22,6 +22,7 @@ board = [
     [0, 0, 0],
 ]
 
+
 def evaluate(state):
     """
     Function to heuristic evaluation of state.
@@ -83,7 +84,9 @@ def empty_cells(state):
 
     for x, row in enumerate(state):
         for y, cell in enumerate(row):
-            if cell == 0: cells.append([x, y])
+            if cell == 0:
+                cells.append([x, y])
+
     return cells
 
 
@@ -165,17 +168,20 @@ def render(state, c_choice, h_choice):
     Print the board on console
     :param state: current state of the board
     """
-    print('----------------')
+
+    chars = {
+        -1: h_choice,
+        +1: c_choice,
+        0: ' '
+    }
+    str_line = '---------------'
+
+    print('\n' + str_line)
     for row in state:
-        print('\n----------------')
         for cell in row:
-            if cell == +1:
-                print('|', c_choice, '|', end='')
-            elif cell == -1:
-                print('|', h_choice, '|', end='')
-            else:
-                print('|', ' ', '|', end='')
-    print('\n----------------')
+            symbol = chars[cell]
+            print(f'| {symbol} |', end='')
+        print('\n' + str_line)
 
 
 def ai_turn(c_choice, h_choice):
@@ -191,7 +197,7 @@ def ai_turn(c_choice, h_choice):
         return
 
     clean()
-    print('Computer turn [{}]'.format(c_choice))
+    print(f'Computer turn [{c_choice}]')
     render(board, c_choice, h_choice)
 
     if depth == 9:
@@ -225,22 +231,22 @@ def human_turn(c_choice, h_choice):
     }
 
     clean()
-    print('Human turn [{}]'.format(h_choice))
+    print(f'Human turn [{h_choice}]')
     render(board, c_choice, h_choice)
 
-    while (move < 1 or move > 9):
+    while move < 1 or move > 9:
         try:
             move = int(input('Use numpad (1..9): '))
             coord = moves[move]
-            try_move = set_move(coord[0], coord[1], HUMAN)
+            can_move = set_move(coord[0], coord[1], HUMAN)
 
-            if try_move == False:
+            if not can_move:
                 print('Bad move')
                 move = -1
-        except KeyboardInterrupt:
+        except (EOFError, KeyboardInterrupt):
             print('Bye')
             exit()
-        except:
+        except (KeyError, ValueError):
             print('Bad choice')
 
 
@@ -249,8 +255,8 @@ def main():
     Main function that calls all functions
     """
     clean()
-    h_choice = '' # X or O
-    c_choice = '' # X or O
+    h_choice = ''  # X or O
+    c_choice = ''  # X or O
     first = ''  # if human is the first
 
     # Human chooses X or O to play
@@ -258,10 +264,10 @@ def main():
         try:
             print('')
             h_choice = input('Choose X or O\nChosen: ').upper()
-        except KeyboardInterrupt:
+        except (EOFError, KeyboardInterrupt):
             print('Bye')
             exit()
-        except:
+        except (KeyError, ValueError):
             print('Bad choice')
 
     # Setting computer's choice
@@ -275,10 +281,10 @@ def main():
     while first != 'Y' and first != 'N':
         try:
             first = input('First to start?[y/n]: ').upper()
-        except KeyboardInterrupt:
+        except (EOFError, KeyboardInterrupt):
             print('Bye')
             exit()
-        except:
+        except (KeyError, ValueError):
             print('Bad choice')
 
     # Main loop of this game
@@ -293,12 +299,12 @@ def main():
     # Game over message
     if wins(board, HUMAN):
         clean()
-        print('Human turn [{}]'.format(h_choice))
+        print(f'Human turn [{h_choice}]')
         render(board, c_choice, h_choice)
         print('YOU WIN!')
     elif wins(board, COMP):
         clean()
-        print('Computer turn [{}]'.format(c_choice))
+        print(f'Computer turn [{c_choice}]')
         render(board, c_choice, h_choice)
         print('YOU LOSE!')
     else:
