@@ -1,4 +1,4 @@
-// An inplementation of Minimax AI Algorithm Tic Tac Toe Game using C++
+// An implementation of Minimax AI Algorithm in Tic Tac Toe Game using C++
 
 #include<bits/stdc++.h>
 #include <unistd.h>
