@@ -1,6 +1,8 @@
 # tic-tac-toe-minimax
 An implementation of Minimax AI Algorithm on Tic-Tac-Toe (or Noughts and Crosses) game. Try it: [Tic-tac-toe - Minimax](https://cledersonbc.github.io/tic-tac-toe-minimax/)
 
+Alternatively, if you have python interpreter, get the repo and run **gui.py** from the py_version directory
+
 <p align="center">
 	<img src="preview/minimax_img.png"></img>
 </p>
@@ -150,6 +152,8 @@ def minimax(state, depth, player):
 
 	return best
 ```
+## GUI Screenshot
+![GUI Screenshot 2](preview/tkinter-gui2.png)
 
 ## Game Tree
 Below, the best move is on the middle because the max value is on 2nd node on left.
